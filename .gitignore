@@ -1,0 +1,8 @@
+build
+dist
+.vscode
+__pycache__
+env
+presentations/*
+results/*
+*.spec
