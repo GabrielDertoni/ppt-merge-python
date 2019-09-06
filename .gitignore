@@ -2,7 +2,7 @@ build
 dist
 .vscode
 __pycache__
-env
+ppt-merge
 presentations/*
 results/*
 *.spec
