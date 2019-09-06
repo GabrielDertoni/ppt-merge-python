@@ -7,7 +7,7 @@ from main import merge_presentations
 
 root = Tk()
 root.title("PowerPoint Merger")
-root.geometry("700x500")
+root.geometry("700x700")
 root.iconbitmap(os.path.abspath("icon.ico"))
 
 vars = []
@@ -27,6 +27,7 @@ def input_layout(frame, var, deletable=True):
   def browse_dialog():
     filename = filedialog.askopenfilename(initialdir="/", title="Select a presentation", filetype=[("PowerPoint files", "*.pptx")])
     var.set(filename)
+    entry.xview_moveto(1)
   
   browse_btn = Button(entry_frame, text="Browse", command=browse_dialog)
   
@@ -105,8 +106,8 @@ output_entry.pack(side=LEFT)
 # Browse button
 def save_dialog():
   filename = filedialog.asksaveasfilename(initialdir="/", title="Save as...", filetype=[("PowerPoint files", "*.pptx")])
+  if os.path.splitext(filename)[1] == '': filename += '.pptx'
   output_path.set(filename)
-
 
 output_browse = Button(output_entry_frame, text="Browse", command=save_dialog)
 output_browse.pack(side=RIGHT)
@@ -116,8 +117,22 @@ input_label = Label(root, text="Input PowerPoint presentations", bg="#d04424", f
 input_label.pack(side=TOP, fill=X)
 
 ## Create frame to store all presentation inputs
-input_frame = Frame(root, pady="15")
-input_frame.pack(side=TOP)
+canvas_frame = Frame(root, pady="15")
+canvas_frame.pack(side=TOP)
+
+# Make the input frame scrollable
+canvas = Canvas(canvas_frame)
+input_frame = Frame(canvas)
+scrollbar = Scrollbar(canvas_frame, orient="vertical", command=canvas.yview)
+canvas.configure(yscrollcommand=scrollbar.set)
+
+def update_canvas(event):
+  canvas.configure(scrollregion=canvas.bbox("all"), width=400, height=300)
+
+scrollbar.pack(side=RIGHT, fill=Y)
+canvas.pack(side=LEFT)
+canvas.create_window((210, 0), window=input_frame)
+input_frame.bind("<Configure>", update_canvas)
 
 # Put the two input fields for merging the presentations (at least two)
 add_input(input_frame, deletable=False)
