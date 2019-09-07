@@ -6,7 +6,7 @@ block_cipher = None
 a = Analysis(['app.py'],
              pathex=['C:\\Users\\Gabriel\\Documents\\Projetos\\ppt-merge-python'],
              binaries=[],
-             datas=[('icon.ico', '.'), ('ppt-merge/tcl/tkdnd2.8', './tcl')],
+             datas=[('icon.ico', '.'), ('ppt-merge/tcl/tkdnd2.8', './tcl/tkdnd2.8')],
              hiddenimports=[],
              hookspath=[],
              runtime_hooks=[],
@@ -26,7 +26,7 @@ exe = EXE(pyz,
           bootloader_ignore_signals=False,
           strip=False,
           upx=True,
-          console=True , icon='icon.ico')
+          console=False , icon='icon.ico')
 coll = COLLECT(exe,
                a.binaries,
                a.zipfiles,
